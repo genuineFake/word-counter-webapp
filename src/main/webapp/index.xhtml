@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<ui:composition template="/WEB-INF/template.xhtml" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+
+    <ui:define name="title">
+        Main Page
+    </ui:define>
+
+    <ui:define name="center">
+        <h:form>
+            <p:growl id="messages" showDetail="true" />
+            <p:fileUpload id="files"
+                          widgetVar="fileUploadWidget" fileUploadListener="#{fileUploadView.handleFileUpload}" mode="advanced" dragDropSupport="false"
+                          multiple="true" update="messages" sizeLimit="100000" allowTypes="/(\.|\/)(txt)$/" oncomplete="handleMultiFileUploadRequest(PF('fileUploadWidget'), validateFiles);" />
+            <p:remoteCommand name="validateFiles" action="#{fileUploadView.giveResults}" />
+
+            <script type="text/javascript">
+                function handleMultiFileUploadRequest(fileupload, remoteButton) {
+                    if (fileupload.files.length === 0) {
+                        if (remoteButton) {
+                            remoteButton();
+                        }
+                    }
+                }
+            </script>
+
+
+        </h:form>
+    </ui:define>
+
+
+</ui:composition>
+</html>
